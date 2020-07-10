@@ -36,3 +36,4 @@ def compute_similarity(tokens, category):
     for token in tokens:
         output_list.append([token.text, category.text, token.similarity(category)])
     return output_list
+

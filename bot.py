@@ -15,6 +15,7 @@ word2vec = spacy.load('en')
 
 exit_commands = ("quit", "goodbye", "exit", "no","stop","bye")
 responses = []
+keywords_of_responses = {}
 class ChatBot:
   
   #define .make_exit() below:
@@ -46,8 +47,9 @@ class ChatBot:
     processed_responses = [Counter(preprocess(response)) for response in responses]
 
     similarity_list = [compare_overlap(processed_message,rep) for rep in processed_responses]
+
     # If none of the responses really fit what the user is asking:
-    if(max(similarity_list)<0.5 or len(responses)==0):
+    if(max(similarity_list)<1 or len(responses)==0):
         return self.idk_response(user_message)
 
     response_index = similarity_list.index(max(similarity_list))
@@ -86,7 +88,6 @@ class ChatBot:
           kw = find_keyword(user_message)
     
       kw1 = my_to_your(kw)
-      print(kw1)
       response = "I'm sorry, I don't have any information about {}."
       formatted = response.format(kw1)
       return formatted
@@ -95,6 +96,7 @@ class ChatBot:
       response = my_to_your(user_message)
     #   key = find_keyword(user_message)
       responses.append(response)
+      # keywords_of_responses[response] = extract_nouns(response)
       return True
 
 #initialize ChatBot instance below:
